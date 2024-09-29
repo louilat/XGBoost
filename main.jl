@@ -1,20 +1,24 @@
 using Printf
+using Plots
 include("data/generate_data.jl")
-include("tree/tree.jl")
+include("tree/larger_tree.jl")
 
 println("Generating data ...")
-X, y = generate_data(Int32(10000))
+X, y = generate_complex_data(Int32(10000))
 println("Done!")
 
 println("Initializing tree ...")
-tree = TreeNode()
+tree::DecisionTree = DecisionTree(50, 3, 2, nothing)
 println("Done!")
 
 println("Training tree ...")
-@time train_tree(tree, X_train = X, y_train = y)
+fit(tree, X = X, y = y)
 println("Done!")
 
-println("Training tree 2 ...")
-@time train_tree_2(tree, X_train = X, y_train = y)
+println("Predict ...")
+X_test, y_test = generate_complex_data(Int32(1000))
+y_pred = predict(tree, X_test)
 println("Done!")
 
+plot(X_test[:, 1] - X_test[:, 2], y_test, seriestype = :scatter)
+plot!(X_test[:, 1] - X_test[:, 2], y_pred, seriestype = :scatter)
