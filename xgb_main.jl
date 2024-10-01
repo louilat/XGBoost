@@ -10,7 +10,8 @@ lambda::Float32 = 0
 println("Done!")
 
 println("Initializing tree ...")
-tree::DecisionTree = DecisionTree(50, 3, 1, nothing)
+m::Array{XgbTree} = Array{XgbTree}(undef, 50)
+tree::XgbRegressor = XgbRegressor(0, 50, 5, 1, 50, 0.8, m, 0)
 println("Done!")
 
 println("Training tree ...")
